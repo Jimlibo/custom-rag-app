@@ -82,7 +82,7 @@ class DbPopulator:
         # check existing items in the database
         existins_items = db.get(include=[])
         existing_ids = set(existins_items['ids'])
-        print("Number of existing items in the Database: {}".format(len(existing_ids)))
+        print(f"Number of existing items in the Database: {len(existing_ids)}")
 
         # add the new chunks to the database
         new_chunks = []
@@ -91,7 +91,7 @@ class DbPopulator:
                 new_chunks.append(chunk)
 
         if len(new_chunks):
-            ret_message = "👉 Adding new items: {}".format(len(new_chunks))
+            ret_message = f"👉 Adding new items: {len(new_chunks)}"
 
             new_chunk_ids = [chunk.metadata['id'] for chunk in new_chunks]
             db.add_documents(new_chunks, ids=new_chunk_ids)
