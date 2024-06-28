@@ -7,7 +7,7 @@ Description: A script containing the class that will interact with the vector da
 import os
 import shutil
 from langchain_community.document_loaders import PyPDFDirectoryLoader, PyPDFLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores.chroma import Chroma
 
 from src.utils.utils import get_embedding_function, calculate_chunk_ids
@@ -65,12 +65,12 @@ class DbPopulator:
 
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000,
-            overlap_size=100,
+            chunk_overlap=100,
             length_function=len,
             is_separator_regex=False
         )
 
-        self.chunks = text_splitter.split(self.documents)
+        self.chunks = text_splitter.split_documents(self.documents)
 
         return self
 
