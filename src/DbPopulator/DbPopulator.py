@@ -15,18 +15,26 @@ from src.utils.utils import get_embedding_function, calculate_chunk_ids
 
 class DbPopulator:
     def __init__(self):
-
-        self.db_path = "src/chroma"
+        # Initialize the DbPopulator object with the necessary attributes
+        self.db_path = None
         self.data_path = None
         self.documents = None
         self.chunks = None
+
+    def set_db_path(self, db_path):
+        """
+        A function that sets the database path
+
+        :param db_path: the path to the database
+        """
+
+        self.db_path = db_path
 
     def set_data_path(self, data_path):
         """
         A function that sets the data path
 
         :param data_path: the path to the data
-        :return: DbPopulator object
         """
 
         self.data_path = data_path
