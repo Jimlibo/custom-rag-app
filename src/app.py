@@ -6,7 +6,7 @@ Description: A streamlit app that offers a gui to interact with a rag pipeline
 
 import streamlit as st
 from DbPopulator.DbPopulator import DbPopulator
-from utils.streamlit_utils import home_page, upload_documents, query_documents
+from utils.streamlit_utils import home_page, upload_documents, query_documents, delete_documents
 
 
 def main():
@@ -17,7 +17,7 @@ def main():
     with st.sidebar:
         st.image("./Images/logo.png", width=200)
         st.title("Custom RAG App")
-        choice = st.radio("Navigation", ["Home", "Upload Documents", "Query Documents", "Delete Documents"])
+        choice = st.radio("MENU", ["Home", "Upload Documents", "Query Documents", "Delete Documents"])
         st.write("")
 
     # create object to interact with the database
@@ -31,6 +31,9 @@ def main():
 
     if choice == "Query Documents":
         query_documents(db_populator)
+
+    if choice == "Delete Documents":
+        delete_documents(db_populator)
 
 
 if __name__ == "__main__":

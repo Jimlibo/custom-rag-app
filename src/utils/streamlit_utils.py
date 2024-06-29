@@ -18,3 +18,7 @@ def upload_documents(db_agent):
 
 def query_documents(db_agent):
     pass
+
+
+def delete_documents(db_agent):
+    pass
