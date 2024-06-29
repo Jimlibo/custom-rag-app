@@ -10,7 +10,7 @@ from langchain_community.document_loaders import PyPDFDirectoryLoader, PyPDFLoad
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores.chroma import Chroma
 
-from src.utils.utils import get_embedding_function, calculate_chunk_ids
+from utils.utils import get_embedding_function, calculate_chunk_ids
 
 
 class DbPopulator:
