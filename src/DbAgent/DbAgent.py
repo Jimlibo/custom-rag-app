@@ -9,6 +9,7 @@ import shutil
 from langchain_community.document_loaders import PyPDFDirectoryLoader, PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores.chroma import Chroma
+from langchain.prompts import ChatPromptTemplate
 
 from utils.utils import get_embedding_function, calculate_chunk_ids
 
@@ -125,7 +126,7 @@ class DbAgent:
         self.documents = None
         self.chunks = None
 
-    def rag_pipeline(self):
+    def populate_database(self):
         """
         A function that runs the entire pipeline to populate the vector database with the embeddings of the
         data files in the specified data path.
@@ -136,3 +137,35 @@ class DbAgent:
         message = self.load_documents().split_documents().add_to_database()
 
         return message
+
+    def get_rag_prompt(self, query_text):
+        """
+        A function that takes as input a text string and returns the appropriate input prompt based on similarity
+        with the vector database's documents.
+
+        :param query_text: string representing the question we want the llm to answer
+        :return: string representing the input prompt to feed the llm
+        """
+
+        base_prompt_template = """
+        Answer the question based only on the following context:
+
+        {context}
+
+        ---
+
+        Answer the question based on the above context: {question}
+        """
+
+        # load the database
+        db = Chroma(persist_directory=self.db_path, embedding_function=get_embedding_function())
+
+        # Search the DB.
+        results = db.similarity_search_with_score(query_text, k=5)
+
+        # generate the appropriate input prompt for  llm
+        context_text = "\n\n---\n\n".join([doc.page_content for doc, _score in results])
+        prompt_template = ChatPromptTemplate.from_template(base_prompt_template)
+        prompt = prompt_template.format(context=context_text, question=query_text)
+
+        return prompt
