@@ -13,9 +13,9 @@ from langchain.vectorstores.chroma import Chroma
 from utils.utils import get_embedding_function, calculate_chunk_ids
 
 
-class DbPopulator:
+class DbAgent:
     def __init__(self):
-        # Initialize the DbPopulator object with the necessary attributes
+        # Initialize the DbAgent object with the necessary attributes
         self.db_path = None
         self.data_path = None
         self.documents = None
@@ -43,7 +43,7 @@ class DbPopulator:
         """
         A function that loads the documents from the specified data_path
 
-        :return: DbPopulator object
+        :return: DbAgent object
         """
 
         # check if data_path is file or directory and use the appropriate loader
@@ -60,7 +60,7 @@ class DbPopulator:
         """
         A method that splits the documents into chunks
 
-        :return: DbPopulator object
+        :return: DbAgent object
         """
 
         text_splitter = RecursiveCharacterTextSplitter(
@@ -78,7 +78,7 @@ class DbPopulator:
         """
         A method that adds the previously generated chunks to the database
 
-        :return: DbPopulator object
+        :return: DbAgent object
         """
 
         # load the database

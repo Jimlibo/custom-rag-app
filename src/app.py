@@ -6,7 +6,7 @@ Description: A streamlit app that offers a gui to interact with a rag pipeline
 
 import os
 import streamlit as st
-from DbPopulator.DbPopulator import DbPopulator
+from DbAgent.DbAgent import DbAgent
 from utils.streamlit_utils import home_page, upload_documents, query_documents, delete_documents
 
 
@@ -29,19 +29,19 @@ def main():
         st.write("")
 
     # create object to interact with the database
-    db_populator = DbPopulator()
+    db_agent = DbAgent()
 
     if choice == "Home":
-        home_page(db_populator)
+        home_page(db_agent)
 
     if choice == "Upload Documents":
-        upload_documents(db_populator)
+        upload_documents(db_agent)
 
     if choice == "Query Documents":
-        query_documents(db_populator)
+        query_documents(db_agent)
 
     if choice == "Delete Documents":
-        delete_documents(db_populator)
+        delete_documents(db_agent)
 
 
 if __name__ == "__main__":

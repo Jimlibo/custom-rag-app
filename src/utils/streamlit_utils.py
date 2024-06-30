@@ -16,7 +16,7 @@ def upload_documents(db_agent):
     """
     A function offers the gui for uploading documents to the vector database through streamlit.
 
-    :param db_agent: a DbPopulator object used to interact with vector databases
+    :param db_agent: a DbAgent object used to interact with vector databases
     :return: None
     """
 
@@ -77,7 +77,7 @@ def delete_documents(db_agent):
     """
     A function offers the gui for deleting existing vector databases through streamlit.
 
-    :param db_agent: a DbPopulator object used to interact with vector databases
+    :param db_agent: a DbAgent object used to interact with vector databases
     :return: None
     """
 
