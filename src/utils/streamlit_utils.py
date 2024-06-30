@@ -69,8 +69,49 @@ def upload_documents(db_agent):
             os.remove(os.path.join(data_dir, file.name))
 
 
-def query_documents(db_agent):
-    pass
+def query_documents(db_agent, model):
+    """
+    A function offers the gui for querying documents in the vector database through streamlit.
+
+    :param db_agent: a DbAgent object used to interact with vector databases
+    :param model: a pretrained llm used for generating responses
+    :return: None
+    """
+
+    st.title("Query Documents")
+
+    st.write("""
+    Use RAG to get the most relevant answer based on your query. Simply  specify the database you want to search and 
+    type your query in the text box. You can also choose to get the sources for the response.
+    """)
+
+    # check if there are existing databases and allow user to choose one
+    db_name = None
+    db_list = os.listdir("./DBs")
+    if len(db_list):
+        db_name = st.selectbox("Choose a database", db_list)
+    else:
+        st.warning("⚠️No existing databases found!")
+
+    # get the query from the user
+    query = st.text_area("Enter your query:")
+
+    get_sources = st.checkbox("Get sources for the response")
+
+    if st.button("Generate Response") and db_name and query:
+        # get the rag prompt based on the query and the specified database
+        db_agent.set_db_path(os.path.join("./DBs", db_name))
+        input_prompt, results = db_agent.get_rag_prompt(query)
+
+        # get the response from the llm
+        response_text = model.invoke(input_prompt)
+
+        if not get_sources:
+            st.info(response_text)
+        else:
+            sources = [doc.metadata.get("id", None) for doc, _score in results]
+            formatted_response = f"{response_text}\n\nSources: {sources}"
+            st.info(formatted_response)
 
 
 def delete_documents(db_agent):
