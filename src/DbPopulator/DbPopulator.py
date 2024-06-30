@@ -99,11 +99,10 @@ class DbPopulator:
                 new_chunks.append(chunk)
 
         if len(new_chunks):
-            ret_message = f"👉 Adding new items: {len(new_chunks)}"
-
             new_chunk_ids = [chunk.metadata['id'] for chunk in new_chunks]
             db.add_documents(new_chunks, ids=new_chunk_ids)
             db.persist()
+            ret_message = f"✅ Added {len(new_chunks)} new items."
 
         else:
             ret_message = "✅ No new items to add."
