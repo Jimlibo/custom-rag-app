@@ -67,4 +67,24 @@ def query_documents(db_agent):
 
 
 def delete_documents(db_agent):
-    pass
+    st.title("Delete Documents")
+
+    st.write("""
+    Delete databases along with all the documents they contain. Simply choose the database you want to delete
+    and click the delete button. You can also choose multiple databases to delete.
+    """)
+
+    # check that there are existing databases
+    db_list = os.listdir("./DBs")
+    if len(db_list) == 0:
+        st.warning("⚠️No existing databases found!")
+    else:
+        dbs_to_delete = st.multiselect("Choose databases to delete", db_list)
+
+        if st.button("Delete") and len(dbs_to_delete):
+
+            # delete the selected databases
+            for db_name in dbs_to_delete:
+                db_agent.set_db_path(os.path.join("./DBs", db_name))
+                db_agent.clear_database()
+                st.success(f"✅ Database '{db_name}' has been deleted.")
