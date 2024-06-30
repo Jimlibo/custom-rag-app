@@ -6,6 +6,7 @@ Description: A streamlit app that offers a gui to interact with a rag pipeline
 
 import os
 import streamlit as st
+from langchain_community.llms.ollama import Ollama
 from DbAgent.DbAgent import DbAgent
 from utils.streamlit_utils import home_page, upload_documents, query_documents, delete_documents
 
@@ -31,6 +32,9 @@ def main():
     # create object to interact with the database
     db_agent = DbAgent()
 
+    # load llm
+    model = Ollama(model="mistral")
+
     if choice == "Home":
         home_page(db_agent)
 
@@ -38,7 +42,7 @@ def main():
         upload_documents(db_agent)
 
     if choice == "Query Documents":
-        query_documents(db_agent)
+        query_documents(db_agent, model)
 
     if choice == "Delete Documents":
         delete_documents(db_agent)
