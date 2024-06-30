@@ -13,7 +13,53 @@ def home_page(db_agent):
 
 
 def upload_documents(db_agent):
-    pass
+    st.title("Upload Documents")
+
+    st.write("""
+    Upload your own documents in a vector database. You can choose to either upload a single
+    document or multiple ones.
+    """)
+
+    # add uploader key as a way to reset file uploader after a certain button has been clicked
+    if "uploader_key" not in st.session_state:
+        st.session_state.uploader_key = 0
+
+    data_dir = "./Data"
+    uploaded_files = st.file_uploader("Choose PDF files", type='pdf', accept_multiple_files=True,
+                                      key=f"uploader_{st.session_state.uploader_key}")
+
+    # save each uploaded file to the data directory
+    if uploaded_files:
+        for file in uploaded_files:
+            with open(os.path.join(data_dir, file.name), 'wb') as f:
+                f.write(file.getvalue())
+
+    # allow user to choose to create a new database or choose from existing ones
+    db_name = None
+    db_type = st.radio("Create a new database or choose an existing one", ["New", "Existing"])
+
+    if db_type == "New":
+        db_name = st.text_input("Enter the name of the new database")
+    else:
+        db_list = os.listdir("./DBs")
+        if len(db_list) == 0:
+            st.warning("⚠️No existing databases found!")
+        else:
+            db_name = st.selectbox("Choose an existing database", db_list)
+
+    if st.button("Upload") and uploaded_files and db_name:
+
+        db_agent.set_db_path(os.path.join("./DBs", db_name))
+        db_agent.set_data_path(data_dir)
+        message = db_agent.rag_pipeline()
+        st.success(message)
+
+        # reset chunks and documents of the db agent
+        db_agent.clear_chunk_documents()
+
+        # delete the uploaded files from the data folder
+        for file in uploaded_files:
+            os.remove(os.path.join(data_dir, file.name))
 
 
 def query_documents(db_agent):
