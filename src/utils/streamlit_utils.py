@@ -58,7 +58,7 @@ def upload_documents(db_agent):
 
         db_agent.set_db_path(os.path.join("./DBs", db_name))
         db_agent.set_data_path(data_dir)
-        message = db_agent.rag_pipeline()
+        message = db_agent.populate_database()
         st.success(message)
 
         # reset chunks and documents of the db agent
