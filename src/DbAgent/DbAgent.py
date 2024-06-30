@@ -144,7 +144,7 @@ class DbAgent:
         with the vector database's documents.
 
         :param query_text: string representing the question we want the llm to answer
-        :return: string representing the input prompt to feed the llm
+        :return: string representing the input prompt to feed the llm and list of most similar items from the db
         """
 
         base_prompt_template = """
@@ -168,4 +168,4 @@ class DbAgent:
         prompt_template = ChatPromptTemplate.from_template(base_prompt_template)
         prompt = prompt_template.format(context=context_text, question=query_text)
 
-        return prompt
+        return prompt, results
