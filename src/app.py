@@ -11,6 +11,13 @@ from utils.streamlit_utils import home_page, upload_documents, query_documents, 
 
 
 def main():
+
+    # create necessary directories if they do not exist
+    if not os.path.exists("./Data"):
+        os.makedirs("./Data")
+    if not os.path.exists("./DBs"):
+        os.makedirs("./DBs")
+
     # add main page properties
     st.set_page_config(page_title="Custom RAG App", page_icon=":computer:", layout="wide")
 
