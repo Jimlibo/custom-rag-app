@@ -4,6 +4,7 @@ Created on 29 June 2024
 Description: A streamlit app that offers a gui to interact with a rag pipeline
 """
 
+import os
 import streamlit as st
 from DbPopulator.DbPopulator import DbPopulator
 from utils.streamlit_utils import home_page, upload_documents, query_documents, delete_documents
