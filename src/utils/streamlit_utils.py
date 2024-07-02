@@ -8,8 +8,24 @@ import os
 import streamlit as st
 
 
-def home_page(db_agent):
-    pass
+def home_page():
+    """
+    A function that contains the content of the home page for the streamlit app.
+
+    :return: None
+    """
+
+    st.title("Welcome to the Custom RAG App!")
+
+    st.write("""
+    This app offers a simple interface for creating and using a rag pipeline. You can create new vector 
+    databases, upload your documents to them and use an llm to query those documents and get the most relevant 
+    answer. You can also delete existing databases with a few clicks.
+    """)
+
+    st.write("""
+    To get started, choose one of the options from the sidebar on the left.
+    """)
 
 
 def upload_documents(db_agent):

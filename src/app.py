@@ -36,7 +36,7 @@ def main():
     model = Ollama(model="gemma:2b")
 
     if choice == "Home":
-        home_page(db_agent)
+        home_page()
 
     if choice == "Upload Documents":
         upload_documents(db_agent)
