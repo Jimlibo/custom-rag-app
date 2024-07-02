@@ -168,7 +168,6 @@ def delete_documents(db_agent):
         st.warning("⚠️No existing databases found!")
     else:
         dbs_to_delete = st.multiselect("Choose databases to delete", db_list)
-
         if st.button("Delete") and len(dbs_to_delete):
 
             # delete the selected databases
