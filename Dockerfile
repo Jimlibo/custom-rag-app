@@ -21,7 +21,7 @@ RUN pip install -r src/requirements.txt
 RUN curl -fsSL https://ollama.com/install.sh | bash
 
 # pull the required llm image from ollama
-RUN ollama pull gemma:2b
+RUN ollama serve && ollama pull gemma:2b
 
 # inform docker that container listens on port 8501 (default streamlit port)
 EXPOSE 8501
@@ -30,5 +30,5 @@ EXPOSE 8501
 HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
 
 # run the streamlit app
-ENTRYPOINT ["ollama", "serve", "&&", "streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
 
