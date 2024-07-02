@@ -70,19 +70,28 @@ def upload_documents(db_agent):
         else:
             db_name = st.selectbox("Choose an existing database", db_list)
 
-    if st.button("Upload") and uploaded_files and db_name:
+    # when upload button has been pressed, check if all necessary variables as set
+    if st.button("Upload"):
+        if uploaded_files and db_name:
 
-        db_agent.set_db_path(os.path.join("./DBs", db_name))
-        db_agent.set_data_path(data_dir)
-        message = db_agent.populate_database()
-        st.success(message)
+            db_agent.set_db_path(os.path.join("./DBs", db_name))
+            db_agent.set_data_path(data_dir)
+            message = db_agent.populate_database()
+            st.success(message)
 
-        # reset chunks and documents of the db agent
-        db_agent.clear_chunk_documents()
+            # reset chunks and documents of the db agent
+            db_agent.clear_chunk_documents()
 
-        # delete the uploaded files from the data folder
-        for file in uploaded_files:
-            os.remove(os.path.join(data_dir, file.name))
+            # delete the uploaded files from the data folder
+            for file in uploaded_files:
+                os.remove(os.path.join(data_dir, file.name))
+
+        elif not uploaded_files and db_name:
+            st.warning("⚠️No files uploaded!")
+        elif uploaded_files and not db_name:
+            st.warning("⚠️No database name provided!")
+        else:
+            st.warning("⚠️Please choose at least one file to upload and provide a database name.")
 
 
 def query_documents(db_agent, model):
@@ -114,20 +123,28 @@ def query_documents(db_agent, model):
 
     get_sources = st.checkbox("Get sources for the response")
 
-    if st.button("Generate Response") and db_name and query:
-        # get the rag prompt based on the query and the specified database
-        db_agent.set_db_path(os.path.join("./DBs", db_name))
-        input_prompt, results = db_agent.get_rag_prompt(query)
+    if st.button("Generate Response"):
+        if db_name and query:
+            # get the rag prompt based on the query and the specified database
+            db_agent.set_db_path(os.path.join("./DBs", db_name))
+            input_prompt, results = db_agent.get_rag_prompt(query)
 
-        # get the response from the llm
-        response_text = model.invoke(input_prompt)
+            # get the response from the llm
+            response_text = model.invoke(input_prompt)
 
-        if not get_sources:
-            st.info(response_text)
+            if not get_sources:
+                st.info(response_text)
+            else:
+                sources = [doc.metadata.get("id", None) for doc, _score in results]
+                formatted_response = f"{response_text}\n\nSources: {sources}"
+                st.info(formatted_response)
+
+        elif not db_name and query:
+            st.warning("⚠️No database has been selected")
+        elif db_name and not query:
+            st.warning("⚠️No query has been provided")
         else:
-            sources = [doc.metadata.get("id", None) for doc, _score in results]
-            formatted_response = f"{response_text}\n\nSources: {sources}"
-            st.info(formatted_response)
+            st.warning("⚠️Please specify a database and enter a query")
 
 
 def delete_documents(db_agent):
