@@ -18,7 +18,7 @@ ADD src src
 RUN pip install -r src/requirements.txt
 
 # install and run ollama to interact with llms locally
-RUN curl -fsSL https://ollama.com/install.sh | sh
+RUN curl -fsSL https://ollama.com/install.sh | bash
 
 # pull the required llm image from ollama
 RUN ollama pull gemma:2b
