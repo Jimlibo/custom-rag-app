@@ -33,7 +33,7 @@ def main():
     db_agent = DbAgent()
 
     # load llm
-    model = Ollama(model="gemma:2b")
+    model = Ollama(model="gemma:2b", base_url="http://ollama-container:11434")
 
     if choice == "Home":
         home_page()

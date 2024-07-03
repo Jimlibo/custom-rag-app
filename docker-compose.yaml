@@ -12,6 +12,7 @@ services:
       - ollama-docker
 
   ollama:
+    hostname: ollama-container
     image: ollama/ollama:latest
     ports:
       - "11434:11434"
@@ -29,7 +30,6 @@ services:
 
 
 networks:
-  # connect the app and ollama containers to the same network
   ollama-docker:
     external: false
 
