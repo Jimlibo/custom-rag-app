@@ -5,6 +5,7 @@ Description: A streamlit app that offers a gui to interact with a rag pipeline
 """
 
 import os
+import argparse
 import streamlit as st
 from langchain_community.llms.ollama import Ollama
 from DbAgent.DbAgent import DbAgent
@@ -12,6 +13,10 @@ from utils.streamlit_utils import home_page, upload_documents, query_documents, 
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--docker", type=bool, default=False, metavar="docker",
+                        help="Flag to indicate if the app is running in a docker container")
+    args = parser.parse_args()
 
     # create necessary directories if they do not exist
     if not os.path.exists("./Data"):
@@ -32,8 +37,11 @@ def main():
     # create object to interact with the database
     db_agent = DbAgent()
 
-    # load llm
-    model = Ollama(model="gemma:2b", base_url="http://ollama:11434")
+    # load llm based on whether the app is running in a docker container or not
+    if args.docker:
+        model = Ollama(model="gemma:2b", base_url="http://host.docker.internal:11434")
+    else:
+        model = Ollama(model="gemma:2b")
 
     if choice == "Home":
         home_page()
