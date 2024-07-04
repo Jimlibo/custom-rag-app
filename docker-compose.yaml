@@ -12,12 +12,13 @@ services:
       - ollama-docker
 
   ollama:
-    hostname: ollama-container
+    hostname: ollama
     image: ollama/ollama:latest
-    ports:
-      - "11434:11434"
+#    ports:
+#      - "11434:11434"
     volumes:
-      - ./ollama/ollama:/root/.ollama
+      - .logs/ollama/ollama:/root/.ollama
+      - ./entrypoint.sh:/entrypoint.sh
     container_name: ollama
     pull_policy: always
     tty: true
@@ -27,7 +28,8 @@ services:
       - OLLAMA_HOST=0.0.0.0
     networks:
       - ollama-docker
-
+    # change the default entrypoint, so that we can pull models on startup
+    entrypoint: ["/usr/bin/bash", "/entrypoint.sh"]
 
 networks:
   ollama-docker:
