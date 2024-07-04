@@ -18,7 +18,7 @@ services:
 #      - "11434:11434"
     volumes:
       - .logs/ollama/ollama:/root/.ollama
-      - ./entrypoint.sh:/entrypoint.sh
+      - ./ollama_entrypoint.sh:/ollama_entrypoint.sh
     container_name: ollama
     pull_policy: always
     tty: true
@@ -29,7 +29,7 @@ services:
     networks:
       - ollama-docker
     # change the default entrypoint, so that we can pull models on startup
-    entrypoint: ["/usr/bin/bash", "/entrypoint.sh"]
+    entrypoint: ["/usr/bin/bash", "/ollama_entrypoint.sh"]
 
 networks:
   ollama-docker:
