@@ -1,10 +1,11 @@
 """
-Created 28 June 2024
+Created on 28 June 2024
 @author: Dimitris Lymperopoulos
 Description: A script containing utility functions
 """
 
 from langchain_community.embeddings.huggingface import HuggingFaceBgeEmbeddings
+from torch.cuda import is_available
 
 
 def get_embedding_function():
@@ -16,7 +17,7 @@ def get_embedding_function():
 
     model_name = 'Alibaba-NLP/gte-large-en-v1.5'
     model_kwargs = {
-        'device': 'cpu',
+        'device': 'cuda' if is_available() else 'cpu',
         'trust_remote_code': True
     }
 
