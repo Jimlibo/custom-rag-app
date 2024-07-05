@@ -6,6 +6,8 @@ services:
     container_name: rag-app
     ports:
       - "8501:8501"
+    environment:
+        - OLLAMA_HOST=ollama
     depends_on:
       - ollama
     networks:
