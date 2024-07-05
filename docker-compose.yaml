@@ -7,7 +7,7 @@ services:
     ports:
       - "8501:8501"
     environment:
-        - OLLAMA_HOST=ollama
+        - OLLAMA_SERVER_URL=ollama
     depends_on:
       - ollama
     networks:
@@ -16,8 +16,8 @@ services:
   ollama:
     hostname: ollama
     image: ollama/ollama:latest
-#    ports:
-#      - "11434:11434"
+    ports:
+     - "11434:11434"
     volumes:
       - .logs/ollama/ollama:/root/.ollama
       - ./ollama_entrypoint.sh:/ollama_entrypoint.sh

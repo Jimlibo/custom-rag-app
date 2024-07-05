@@ -24,4 +24,4 @@ HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
 WORKDIR /custom-rag-app/src
 
 # run the streamlit app
-ENTRYPOINT ["streamlit", "run", "app.py", "--docker"]
+ENTRYPOINT ["streamlit", "run", "app.py"]
