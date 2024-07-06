@@ -16,8 +16,6 @@ services:
   ollama:
     hostname: ollama
     image: ollama/ollama:latest
-    ports:
-     - "11434:11434"
     volumes:
       - .logs/ollama/ollama:/root/.ollama
       - ./ollama_entrypoint.sh:/ollama_entrypoint.sh
