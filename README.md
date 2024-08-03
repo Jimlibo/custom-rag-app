@@ -48,11 +48,12 @@ streamlit run app.py
 ```
 
 In order to run inference on a LLM, you also need to have the Ollama service up and running. If it's the
-first time you run the app, have to pull the gemma:2b model from ollama repository before serving it.
+first time you run the app, you have to pull the **gemma:2b** model from ollama repository before serving it.
 To pull the model, open another terminal and execute the command:
 ```sh
 ollama pull gemma:2b
 ```
+
 To serve the model, run:
 ```sh
 ollama serve
